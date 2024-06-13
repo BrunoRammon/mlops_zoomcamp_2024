@@ -1,0 +1,6 @@
+1 - 6.24
+2 - 66M
+3 - jupyter nbconvert --to script file_name.py
+4 - sha256:057b991ac64b3e75c9c04b5f9395eaf19a6179244c089afdebaad98264bff37c
+5 - 14.29
+6 - 0.1917
