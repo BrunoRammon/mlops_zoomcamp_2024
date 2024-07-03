@@ -6,7 +6,7 @@ import os
 
 def get_s3_storage_options():
     # pylint: disable=C0116
-    s3_endpoint_url = os.getenv('OUTPUT_FILE_PATTERN')
+    s3_endpoint_url = os.getenv('S3_ENDPOINT_URL')
     if s3_endpoint_url is not None:
         options = {
             'client_kwargs': {
@@ -30,11 +30,18 @@ data = [
 columns = ['PULocationID', 'DOLocationID', 'tpep_pickup_datetime',
                'tpep_dropoff_datetime']
 input_data = pd.DataFrame(data, columns=columns)
+def get_date_prediction():
+    year = os.getenv('PREDICTION_YEAR', 2023)
+    month = os.getenv('PREDICTION_MONTH', 1)
+    return year, month
 
+year,month = get_date_prediction()
 input_data.to_parquet(
-    's3://integration-tests/generic_output.parquet',
+    f's3://nyc-duration/in/{year:04d}-{month:02d}.parquet',
     engine='pyarrow',
     compression=None,
     index=False,
     storage_options=get_s3_storage_options()
 )
+
+#os.system(f'pipenv run python ../batch.py {year} {month}')

@@ -37,17 +37,18 @@ def prediction(df, dict_vec, log_reg,categorical_cols):
     X_val = dict_vec.transform(dicts)
     y_pred = log_reg.predict(X_val)
 
-    print('predicted mean duration:', y_pred.mean())
+    print('predicted sum duration:', y_pred.sum())
     return y_pred
 
-def save_results(df,y_pred, output_filename, year, month):
+def save_results(df, y_pred, output_filename, year, month, storage_options):
     # pylint: disable=C0116
     df_result = pd.DataFrame()
     df_result['ride_id'] = f'{year:04d}/{month:02d}_' + df.index.astype('str')
     df_result['predicted_duration'] = y_pred
-    df_result.to_parquet(output_filename, engine='pyarrow', index=False)
+    df_result.to_parquet(output_filename, engine='pyarrow', index=False,
+                         storage_options=storage_options)
 
-def main(year,month, taxi_type='yellow'):
+def main(year,month, taxi_type='yellow', model_filename='model.bin'):
     # pylint: disable=C0116
     input_file = utils.get_input_path(year, month, taxi_type)
     output_file =   utils.get_output_path(year, month, taxi_type)
@@ -55,10 +56,9 @@ def main(year,month, taxi_type='yellow'):
     data = read_data(input_file, storage_options)
     categorical = ['PULocationID', 'DOLocationID']
     data = prepare_data(data, categorical)
-    model_file = 'model.bin'
-    dv,lr = load_model(model_file)
+    dv,lr = load_model(model_filename)
     y_inference = prediction(data,dv,lr,categorical)
-    save_results(data, y_inference, output_file,year,month)
+    save_results(data, y_inference, output_file, year, month,storage_options)
 
 if __name__ == "__main__":
     y = int(sys.argv[1])

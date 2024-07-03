@@ -20,7 +20,7 @@ def get_output_path(year, month, taxi_type):
 
 def get_s3_storage_options():
     # pylint: disable=C0116
-    s3_endpoint_url = os.getenv('OUTPUT_FILE_PATTERN')
+    s3_endpoint_url = os.getenv('S3_ENDPOINT_URL')
     if s3_endpoint_url is not None:
         options = {
             'client_kwargs': {
