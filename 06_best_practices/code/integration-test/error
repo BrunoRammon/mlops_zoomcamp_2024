@@ -1,0 +1,3 @@
+When I run the test_docker I got this error: "ResourceNotFoundException: An error occurred (ResourceNotFoundException) when calling the PutRecord operation: Stream arn arn:aws:kinesis:eu-west-1:000000000000:stream/ride_predictions not found". Did anyone else also get this error?
+
+An error occurred (SerializationException) when calling the PutRecord operation: Invalid message body: Could not decode JSON: {\n  \"StreamName\" : \"ride_predictions\",\n  \"Data\" : \"eyJtb2RlbCI6ICJyaWRlX2R1cmF0aW9uX3ByZWRpY3Rpb25fbW9kZWwiLCAidmVyc2lvbiI6ICJUZXN0MTIzIiwgInByZWRpY3Rpb24iOiB7InJpZGVfZHVyYXRpb24iOiAyMS4yOTQ1NDUzNDgzMzM0MDgsICJyaWRlX2lkIjogMjU2fX0=\",\n  \"PartitionKey\" : \"256\",\n  \"StreamARN\" : \"arn:aws:kinesis::000000000000:stream/ride_predictions\"
